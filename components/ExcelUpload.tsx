@@ -48,9 +48,9 @@ export default function ExcelUpload() {
           return { name: find("name"), email: find("email"), number: find("number") };
         });
 
-        const valid = parsed.filter((r) => r.name);
+        const valid = parsed.filter((r) => r.name && r.email && r.number);
         if (valid.length === 0) {
-          setParseError('No valid rows found. Ensure the sheet has a "name" column.');
+          setParseError('No valid rows found. Ensure the sheet has "name", "email", and "number" columns with values.');
           return;
         }
 
@@ -156,7 +156,7 @@ export default function ExcelUpload() {
           {fileName ? fileName : "Drop your file here or click to browse"}
         </p>
         <p className="text-sm text-gray-400 dark:text-gray-500 mt-1">Supports .xlsx, .xls, .csv</p>
-        <p className="text-xs text-gray-400 dark:text-gray-500 mt-3">Required column: <code className="bg-gray-100 dark:bg-gray-700 dark:text-gray-300 px-1 rounded">name</code> — Optional: <code className="bg-gray-100 dark:bg-gray-700 dark:text-gray-300 px-1 rounded">email</code>, <code className="bg-gray-100 dark:bg-gray-700 dark:text-gray-300 px-1 rounded">number</code></p>
+        <p className="text-xs text-gray-400 dark:text-gray-500 mt-3">Required columns: <code className="bg-gray-100 dark:bg-gray-700 dark:text-gray-300 px-1 rounded">name</code>, <code className="bg-gray-100 dark:bg-gray-700 dark:text-gray-300 px-1 rounded">email</code>, <code className="bg-gray-100 dark:bg-gray-700 dark:text-gray-300 px-1 rounded">number</code></p>
       </div>
 
       {parseError && (

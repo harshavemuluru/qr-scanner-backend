@@ -27,7 +27,7 @@ export default function QRCodeDisplay({ entry }: { entry: Entry }) {
         ${entry.email ? `<p style="color:#666;margin:4px 0">${entry.email}</p>` : ""}
         ${entry.number ? `<p style="color:#666;margin:4px 0">${entry.number}</p>` : ""}
         <div style="margin:24px auto;display:inline-block">${svgData}</div>
-        <p style="color:#999;font-size:12px;margin-top:8px">${entry.id}</p>
+
       </body></html>
     `);
     win.document.close();
@@ -43,7 +43,7 @@ export default function QRCodeDisplay({ entry }: { entry: Entry }) {
         <p className="font-semibold text-gray-900 dark:text-white">{entry.name}</p>
         {entry.email && <p className="text-sm text-gray-500 dark:text-gray-400">{entry.email}</p>}
         {entry.number && <p className="text-sm text-gray-500 dark:text-gray-400">{entry.number}</p>}
-        <p className="text-xs text-gray-400 dark:text-gray-500 mt-2 font-mono break-all">{entry.id}</p>
+
       </div>
       <button
         onClick={handlePrint}

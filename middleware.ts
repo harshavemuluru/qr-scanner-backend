@@ -1,15 +1,26 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { createHmac } from "crypto";
 
-function expectedToken(): string | null {
+async function expectedToken(): Promise<string | null> {
   const secret = process.env.ADMIN_SECRET;
   if (!secret) return null;
-  return createHmac("sha256", secret).update("qr_admin_v1").digest("hex");
+
+  const enc = new TextEncoder();
+  const key = await crypto.subtle.importKey(
+    "raw",
+    enc.encode(secret),
+    { name: "HMAC", hash: "SHA-256" },
+    false,
+    ["sign"]
+  );
+  const sig = await crypto.subtle.sign("HMAC", key, enc.encode("qr_admin_v1"));
+  return Array.from(new Uint8Array(sig))
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
 }
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const token = request.cookies.get("qr_admin_session")?.value;
-  const expected = expectedToken();
+  const expected = await expectedToken();
 
   if (!expected || token !== expected) {
     // API routes get a 401, pages get redirected to login
