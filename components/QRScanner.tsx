@@ -17,6 +17,7 @@ type ScanState =
   | { status: "loading" }
   | { status: "not_found"; scannedId: string }
   | { status: "found"; entry: Entry }
+  | { status: "just_checked_in"; entry: Entry }
   | { status: "checked_in"; entry: Entry };
 
 export default function QRScanner() {
@@ -90,7 +91,7 @@ export default function QRScanner() {
     try {
       const res = await fetch(`/api/entries/${state.entry.id}`, { method: "PATCH" });
       const updated: Entry = await res.json();
-      setState({ status: "checked_in", entry: updated });
+      setState({ status: "just_checked_in", entry: updated });
     } catch {
       // keep state, let user retry
     } finally {
@@ -174,6 +175,23 @@ export default function QRScanner() {
           >
             {checkingIn ? "Checking in..." : "Check In"}
           </button>
+          <button onClick={reset} className="w-full py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition">
+            Scan Another
+          </button>
+        </div>
+      )}
+
+      {state.status === "just_checked_in" && (
+        <div className="space-y-4">
+          <div className="rounded-2xl bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 p-6 text-center">
+            <div className="text-5xl mb-3">🎉</div>
+            <p className="text-green-700 dark:text-green-400 font-bold text-2xl">Welcome, {state.entry.name}!</p>
+            <p className="text-green-600 dark:text-green-500 text-sm mt-1">Checked in successfully</p>
+            <div className="mt-4 space-y-1">
+              {state.entry.email && <p className="text-gray-500 dark:text-gray-400 text-sm">{state.entry.email}</p>}
+              {state.entry.number && <p className="text-gray-500 dark:text-gray-400 text-sm">{state.entry.number}</p>}
+            </div>
+          </div>
           <button onClick={reset} className="w-full py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition">
             Scan Another
           </button>
