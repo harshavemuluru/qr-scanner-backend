@@ -7,7 +7,7 @@ interface Entry {
   number: string;
 }
 
-async function buildHtml(entry: Entry): Promise<string> {
+async function buildHtml(entry: Entry): Promise<{ html: string; qrBase64: string }> {
   // Generate QR as a self-contained base64 PNG and attach via CID
   const qrBuffer = await QRCode.toBuffer(entry.id, {
     width: 280,
