@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
+import LogoutButton from "@/components/LogoutButton";
 
 const geist = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 
@@ -17,7 +18,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <header className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
           <div className="max-w-lg mx-auto px-4 h-14 flex items-center justify-between">
             <span className="font-bold text-gray-900 dark:text-white tracking-tight">VIP Entry</span>
-            <nav className="flex gap-1">
+            <nav className="flex gap-1 items-center">
               <Link
                 href="/onboard"
                 className="px-4 py-1.5 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-violet-700 dark:hover:text-violet-400 hover:bg-violet-50 dark:hover:bg-violet-900/20 transition"
@@ -30,6 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               >
                 Verify
               </Link>
+              <LogoutButton />
             </nav>
           </div>
         </header>
