@@ -22,7 +22,7 @@ async function buildHtml(entry: Entry): Promise<{ html: string; qrBase64: string
 <body style="font-family:sans-serif;background:#f3f4f6;padding:0;margin:0;">
   <div style="max-width:480px;margin:40px auto;background:#ffffff;border-radius:16px;overflow:hidden;border:1px solid #e5e7eb;">
     <div style="background:#7c3aed;padding:32px;text-align:center;">
-      <h1 style="color:#ffffff;margin:0;font-size:26px;letter-spacing:-0.5px;">Soulful Pop Up</h1>
+      <h1 style="color:#ffffff;margin:0;font-size:26px;letter-spacing:-0.5px;">Late Checkout x Seoulful Popup</h1>
       <p style="color:#ddd6fe;margin:8px 0 0;font-size:14px;">VIP Entry Pass</p>
     </div>
     <div style="padding:32px;text-align:center;">
@@ -56,9 +56,9 @@ async function sendViaGmail(entry: Entry, html: string, qrBase64: string): Promi
     },
   });
   await transporter.sendMail({
-    from: `"Soulful Pop Up" <${process.env.GMAIL_USER}>`,
+    from: `"Late Checkout x Seoulful Popup" <${process.env.GMAIL_USER}>`,
     to: entry.email,
-    subject: "Your VIP pass — Soulful Pop Up 🎶",
+    subject: "Your VIP pass — Late Checkout x Seoulful Popup 🎶",
     html,
     attachments: [
       {
@@ -76,7 +76,7 @@ async function sendViaResend(entry: Entry, html: string, qrBase64: string): Prom
   await resend.emails.send({
     from: process.env.RESEND_FROM ?? "onboarding@resend.dev",
     to: entry.email,
-    subject: "Your VIP pass — Soulful Pop Up 🎶",
+    subject: "Your VIP pass — Late Checkout x Seoulful Popup 🎶",
     html,
     attachments: [
       {

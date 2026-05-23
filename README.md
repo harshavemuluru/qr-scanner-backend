@@ -1,4 +1,4 @@
-# Soulful Pop Up — VIP Entry System
+# Late Checkout x Seoulful Popup — VIP Entry System
 
 A Next.js app for managing VIP guest entry at events. Admins onboard guests individually or via bulk CSV/Excel upload. Each guest receives a unique QR code by email. Staff scan QR codes at the door to check guests in.
 
