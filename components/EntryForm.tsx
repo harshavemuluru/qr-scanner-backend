@@ -13,7 +13,7 @@ interface Entry {
   created_at: string;
 }
 
-export default function EntryForm() {
+export default function EntryForm({ accent = "violet" }: { accent?: "violet" | "coral" }) {
   const [name, setName] = useState("");
   const [childName, setChildName] = useState("");
   const [age, setAge] = useState("");
@@ -21,6 +21,20 @@ export default function EntryForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [created, setCreated] = useState<Entry | null>(null);
+
+  const isCoral = accent === "coral";
+  const labelClass = isCoral
+    ? "block text-sm font-medium text-[#5B4B3A] mb-1"
+    : "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1";
+  const inputClass = isCoral
+    ? "w-full px-4 py-2.5 rounded-xl border border-[#E8D9C3] bg-white focus:outline-none focus:ring-2 focus:ring-[#E8735A] focus:border-transparent text-[#2B2420] placeholder-[#B5A88F]"
+    : "w-full px-4 py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500";
+  const buttonClass = isCoral
+    ? "w-full py-3 rounded-xl bg-[#E8735A] text-white font-semibold hover:bg-[#D8624A] disabled:opacity-50 disabled:cursor-not-allowed transition"
+    : "w-full py-3 rounded-xl bg-violet-600 text-white font-semibold hover:bg-violet-700 disabled:opacity-50 disabled:cursor-not-allowed transition";
+  const secondaryButtonClass = isCoral
+    ? "w-full py-2.5 rounded-xl border border-[#E8D9C3] text-[#5B4B3A] hover:bg-[#FBF1E3] transition"
+    : "w-full py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition";
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -55,10 +69,7 @@ export default function EntryForm() {
           <p className="text-green-600 dark:text-green-500 text-sm">Share or print this QR code for {created.name}</p>
         </div>
         <QRCodeDisplay entry={created} />
-        <button
-          onClick={() => setCreated(null)}
-          className="w-full py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition"
-        >
+        <button onClick={() => setCreated(null)} className={secondaryButtonClass}>
           Add Another Entry
         </button>
       </div>
@@ -73,7 +84,7 @@ export default function EntryForm() {
         </div>
       )}
       <div>
-        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+        <label className={labelClass}>
           Full Name <span className="text-red-500">*</span>
         </label>
         <input
@@ -82,11 +93,11 @@ export default function EntryForm() {
           onChange={(e) => setName(e.target.value)}
           required
           placeholder="e.g. John Smith"
-          className="w-full px-4 py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
+          className={inputClass}
         />
       </div>
       <div>
-        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+        <label className={labelClass}>
           Child&apos;s Name <span className="text-red-500">*</span>
         </label>
         <input
@@ -95,11 +106,11 @@ export default function EntryForm() {
           onChange={(e) => setChildName(e.target.value)}
           required
           placeholder="e.g. Jamie Smith"
-          className="w-full px-4 py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
+          className={inputClass}
         />
       </div>
       <div>
-        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+        <label className={labelClass}>
           Age <span className="text-red-500">*</span>
         </label>
         <input
@@ -109,11 +120,11 @@ export default function EntryForm() {
           required
           min={0}
           placeholder="e.g. 7"
-          className="w-full px-4 py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
+          className={inputClass}
         />
       </div>
       <div>
-        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+        <label className={labelClass}>
           Phone Number <span className="text-red-500">*</span>
         </label>
         <input
@@ -122,14 +133,10 @@ export default function EntryForm() {
           onChange={(e) => setNumber(e.target.value)}
           required
           placeholder="e.g. +1 555 000 0000"
-          className="w-full px-4 py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
+          className={inputClass}
         />
       </div>
-      <button
-        type="submit"
-        disabled={loading}
-        className="w-full py-3 rounded-xl bg-violet-600 text-white font-semibold hover:bg-violet-700 disabled:opacity-50 disabled:cursor-not-allowed transition"
-      >
+      <button type="submit" disabled={loading} className={buttonClass}>
         {loading ? "Creating..." : "Create Entry & Generate QR"}
       </button>
     </form>
