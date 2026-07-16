@@ -7,8 +7,8 @@ import LogoutButton from "@/components/LogoutButton";
 const geist = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Late Checkout x Seoulful Popup",
-  description: "VIP entry management with QR codes for Late Checkout x Seoulful Popup",
+  title: "LateCheckout x LittlePreneurs",
+  description: "VIP entry management with QR codes for LateCheckout x LittlePreneurs",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -17,7 +17,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="min-h-screen bg-gray-50 dark:bg-gray-950 flex flex-col">
         <header className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
           <div className="max-w-lg mx-auto px-4 h-14 flex items-center justify-between">
-            <span className="font-bold text-gray-900 dark:text-white tracking-tight">Late Checkout x Seoulful Popup</span>
+            <span className="font-bold text-gray-900 dark:text-white tracking-tight">LateCheckout x LittlePreneurs</span>
             <nav className="flex gap-1 items-center">
               <Link
                 href="/register"
