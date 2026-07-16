@@ -30,7 +30,7 @@ export default function RegisterPage() {
 
         <div className="flex justify-center mt-5">
           <span className="inline-block rounded-full border border-[#E8A33D] bg-white/60 px-4 py-1.5 text-sm font-medium text-[#5B4B3A]">
-            Sun, Aug 2 · 11 AM – 4 PM · T-Works, Hyd
+            Sun, Aug 2 · 12 PM – 4 PM · T-Works, Hyd
           </span>
         </div>
 
