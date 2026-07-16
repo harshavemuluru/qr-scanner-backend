@@ -5,7 +5,8 @@ import * as XLSX from "xlsx";
 
 interface ParsedRow {
   name: string;
-  email: string;
+  childName: string;
+  age: string;
   number: string;
 }
 
@@ -45,12 +46,17 @@ export default function ExcelUpload() {
         const parsed: ParsedRow[] = raw.map((r) => {
           const find = (key: string) =>
             Object.entries(r).find(([k]) => k.toLowerCase().trim() === key)?.[1]?.toString().trim() ?? "";
-          return { name: find("name"), email: find("email"), number: find("number") };
+          return {
+            name: find("name"),
+            childName: find("child_name") || find("child's name") || find("childname"),
+            age: find("age"),
+            number: find("number"),
+          };
         });
 
-        const valid = parsed.filter((r) => r.name && r.email && r.number);
+        const valid = parsed.filter((r) => r.name && r.childName && r.age && r.number);
         if (valid.length === 0) {
-          setParseError('No valid rows found. Ensure the sheet has "name", "email", and "number" columns with values.');
+          setParseError('No valid rows found. Ensure the sheet has "name", "child_name", "age", and "number" columns with values.');
           return;
         }
 
@@ -156,7 +162,7 @@ export default function ExcelUpload() {
           {fileName ? fileName : "Drop your file here or click to browse"}
         </p>
         <p className="text-sm text-gray-400 dark:text-gray-500 mt-1">Supports .xlsx, .xls, .csv</p>
-        <p className="text-xs text-gray-400 dark:text-gray-500 mt-3">Required columns: <code className="bg-gray-100 dark:bg-gray-700 dark:text-gray-300 px-1 rounded">name</code>, <code className="bg-gray-100 dark:bg-gray-700 dark:text-gray-300 px-1 rounded">email</code>, <code className="bg-gray-100 dark:bg-gray-700 dark:text-gray-300 px-1 rounded">number</code></p>
+        <p className="text-xs text-gray-400 dark:text-gray-500 mt-3">Required columns: <code className="bg-gray-100 dark:bg-gray-700 dark:text-gray-300 px-1 rounded">name</code>, <code className="bg-gray-100 dark:bg-gray-700 dark:text-gray-300 px-1 rounded">child_name</code>, <code className="bg-gray-100 dark:bg-gray-700 dark:text-gray-300 px-1 rounded">age</code>, <code className="bg-gray-100 dark:bg-gray-700 dark:text-gray-300 px-1 rounded">number</code></p>
       </div>
 
       {parseError && (
@@ -176,7 +182,8 @@ export default function ExcelUpload() {
                   <tr>
                     <th className="px-4 py-2 text-left font-medium text-gray-600 dark:text-gray-300">#</th>
                     <th className="px-4 py-2 text-left font-medium text-gray-600 dark:text-gray-300">Name</th>
-                    <th className="px-4 py-2 text-left font-medium text-gray-600 dark:text-gray-300">Email</th>
+                    <th className="px-4 py-2 text-left font-medium text-gray-600 dark:text-gray-300">Child&apos;s Name</th>
+                    <th className="px-4 py-2 text-left font-medium text-gray-600 dark:text-gray-300">Age</th>
                     <th className="px-4 py-2 text-left font-medium text-gray-600 dark:text-gray-300">Number</th>
                   </tr>
                 </thead>
@@ -185,7 +192,8 @@ export default function ExcelUpload() {
                     <tr key={i} className="border-b border-gray-100 dark:border-gray-700 last:border-0">
                       <td className="px-4 py-2 text-gray-400 dark:text-gray-500">{i + 1}</td>
                       <td className="px-4 py-2 text-gray-900 dark:text-white">{r.name}</td>
-                      <td className="px-4 py-2 text-gray-500 dark:text-gray-400">{r.email || "—"}</td>
+                      <td className="px-4 py-2 text-gray-500 dark:text-gray-400">{r.childName || "—"}</td>
+                      <td className="px-4 py-2 text-gray-500 dark:text-gray-400">{r.age || "—"}</td>
                       <td className="px-4 py-2 text-gray-500 dark:text-gray-400">{r.number || "—"}</td>
                     </tr>
                   ))}

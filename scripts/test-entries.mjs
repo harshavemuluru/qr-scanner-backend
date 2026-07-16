@@ -33,13 +33,15 @@ async function run() {
   const sample = [
     {
       name: `Test User ${now}-1`,
-      email: `test${now}a@example.com`,
-      number: "+1 555 000 0001",
+      child_name: `Test Child ${now}-1`,
+      age: 7,
+      number: `+1 555 ${now.toString().slice(-6)}1`,
     },
     {
       name: `Test User ${now}-2`,
-      email: `test${now}b@example.com`,
-      number: "+1 555 000 0002",
+      child_name: `Test Child ${now}-2`,
+      age: 9,
+      number: `+1 555 ${now.toString().slice(-6)}2`,
     },
   ];
 
@@ -73,7 +75,7 @@ async function run() {
 
   const { data: latest, error: selectError } = await supabase
     .from("entries")
-    .select("id,name,email,number,checkedin,created_at")
+    .select("id,name,child_name,age,number,checkedin,created_at")
     .order("created_at", { ascending: false })
     .limit(5);
 

@@ -6,7 +6,8 @@ import { useRef } from "react";
 interface Entry {
   id: string;
   name: string;
-  email: string | null;
+  child_name: string | null;
+  age: number | null;
   number: string | null;
   checkedin: boolean;
 }
@@ -24,7 +25,7 @@ export default function QRCodeDisplay({ entry }: { entry: Entry }) {
       <html><head><title>QR – ${entry.name}</title></head>
       <body style="text-align:center;font-family:sans-serif;padding:40px">
         <h2 style="margin-bottom:8px">${entry.name}</h2>
-        ${entry.email ? `<p style="color:#666;margin:4px 0">${entry.email}</p>` : ""}
+        ${entry.child_name ? `<p style="color:#666;margin:4px 0">Child: ${entry.child_name}${entry.age != null ? ` (${entry.age})` : ""}</p>` : ""}
         ${entry.number ? `<p style="color:#666;margin:4px 0">${entry.number}</p>` : ""}
         <div style="margin:24px auto;display:inline-block">${svgData}</div>
 
@@ -41,7 +42,11 @@ export default function QRCodeDisplay({ entry }: { entry: Entry }) {
       </div>
       <div className="text-center">
         <p className="font-semibold text-gray-900 dark:text-white">{entry.name}</p>
-        {entry.email && <p className="text-sm text-gray-500 dark:text-gray-400">{entry.email}</p>}
+        {entry.child_name && (
+          <p className="text-sm text-gray-500 dark:text-gray-400">
+            Child: {entry.child_name}{entry.age != null ? ` (${entry.age})` : ""}
+          </p>
+        )}
         {entry.number && <p className="text-sm text-gray-500 dark:text-gray-400">{entry.number}</p>}
 
       </div>

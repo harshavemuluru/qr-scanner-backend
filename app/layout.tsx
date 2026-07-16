@@ -20,6 +20,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <span className="font-bold text-gray-900 dark:text-white tracking-tight">Late Checkout x Seoulful Popup</span>
             <nav className="flex gap-1 items-center">
               <Link
+                href="/register"
+                className="px-4 py-1.5 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-violet-700 dark:hover:text-violet-400 hover:bg-violet-50 dark:hover:bg-violet-900/20 transition"
+              >
+                Register
+              </Link>
+              <Link
                 href="/onboard"
                 className="px-4 py-1.5 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-violet-700 dark:hover:text-violet-400 hover:bg-violet-50 dark:hover:bg-violet-900/20 transition"
               >

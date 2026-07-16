@@ -6,7 +6,8 @@ import QRCodeDisplay from "./QRCodeDisplay";
 interface Entry {
   id: string;
   name: string;
-  email: string | null;
+  child_name: string | null;
+  age: number | null;
   number: string | null;
   checkedin: boolean;
   created_at: string;
@@ -14,7 +15,8 @@ interface Entry {
 
 export default function EntryForm() {
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const [childName, setChildName] = useState("");
+  const [age, setAge] = useState("");
   const [number, setNumber] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -29,13 +31,14 @@ export default function EntryForm() {
       const res = await fetch("/api/entries", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, number }),
+        body: JSON.stringify({ name, childName, age, number }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to create entry");
       setCreated(data);
       setName("");
-      setEmail("");
+      setChildName("");
+      setAge("");
       setNumber("");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unknown error");
@@ -84,14 +87,28 @@ export default function EntryForm() {
       </div>
       <div>
         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-          Email <span className="text-red-500">*</span>
+          Child&apos;s Name <span className="text-red-500">*</span>
         </label>
         <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          type="text"
+          value={childName}
+          onChange={(e) => setChildName(e.target.value)}
           required
-          placeholder="e.g. john@example.com"
+          placeholder="e.g. Jamie Smith"
+          className="w-full px-4 py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
+        />
+      </div>
+      <div>
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+          Age <span className="text-red-500">*</span>
+        </label>
+        <input
+          type="number"
+          value={age}
+          onChange={(e) => setAge(e.target.value)}
+          required
+          min={0}
+          placeholder="e.g. 7"
           className="w-full px-4 py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
         />
       </div>

@@ -18,7 +18,13 @@ async function expectedToken(): Promise<string | null> {
     .join("");
 }
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
+  // POST /api/entries is the public registration endpoint — anyone can
+  // create an entry. Listing entries (GET) stays admin-only.
+  if (request.nextUrl.pathname === "/api/entries" && request.method === "POST") {
+    return NextResponse.next();
+  }
+
   const token = request.cookies.get("qr_admin_session")?.value;
   const expected = await expectedToken();
 

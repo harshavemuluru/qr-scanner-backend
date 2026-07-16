@@ -5,7 +5,8 @@ import { useEffect, useRef, useState, useCallback } from "react";
 interface Entry {
   id: string;
   name: string;
-  email: string | null;
+  child_name: string | null;
+  age: number | null;
   number: string | null;
   checkedin: boolean;
   created_at: string;
@@ -90,8 +91,14 @@ export default function QRScanner() {
     setCheckingIn(true);
     try {
       const res = await fetch(`/api/entries/${state.entry.id}`, { method: "PATCH" });
-      const updated: Entry = await res.json();
-      setState({ status: "just_checked_in", entry: updated });
+      const body = await res.json();
+      if (res.ok) {
+        setState({ status: "just_checked_in", entry: body });
+      } else if (res.status === 409 && body.entry) {
+        // Someone else redeemed this code a moment before us.
+        setState({ status: "checked_in", entry: body.entry });
+      }
+      // else: keep state, let user retry
     } catch {
       // keep state, let user retry
     } finally {
@@ -164,7 +171,11 @@ export default function QRScanner() {
             </div>
             <div className="space-y-1">
               <p className="text-gray-900 dark:text-white font-semibold text-lg">{state.entry.name}</p>
-              {state.entry.email && <p className="text-gray-500 dark:text-gray-400 text-sm">{state.entry.email}</p>}
+              {state.entry.child_name && (
+                <p className="text-gray-500 dark:text-gray-400 text-sm">
+                  Child: {state.entry.child_name}{state.entry.age != null ? ` (${state.entry.age})` : ""}
+                </p>
+              )}
               {state.entry.number && <p className="text-gray-500 dark:text-gray-400 text-sm">{state.entry.number}</p>}
             </div>
           </div>
@@ -188,7 +199,11 @@ export default function QRScanner() {
             <p className="text-green-700 dark:text-green-400 font-bold text-2xl">Welcome, {state.entry.name}!</p>
             <p className="text-green-600 dark:text-green-500 text-sm mt-1">Checked in successfully</p>
             <div className="mt-4 space-y-1">
-              {state.entry.email && <p className="text-gray-500 dark:text-gray-400 text-sm">{state.entry.email}</p>}
+              {state.entry.child_name && (
+                <p className="text-gray-500 dark:text-gray-400 text-sm">
+                  Child: {state.entry.child_name}{state.entry.age != null ? ` (${state.entry.age})` : ""}
+                </p>
+              )}
               {state.entry.number && <p className="text-gray-500 dark:text-gray-400 text-sm">{state.entry.number}</p>}
             </div>
           </div>
@@ -210,7 +225,11 @@ export default function QRScanner() {
             </div>
             <div className="space-y-1">
               <p className="text-gray-900 dark:text-white font-semibold text-lg">{state.entry.name}</p>
-              {state.entry.email && <p className="text-gray-500 dark:text-gray-400 text-sm">{state.entry.email}</p>}
+              {state.entry.child_name && (
+                <p className="text-gray-500 dark:text-gray-400 text-sm">
+                  Child: {state.entry.child_name}{state.entry.age != null ? ` (${state.entry.age})` : ""}
+                </p>
+              )}
               {state.entry.number && <p className="text-gray-500 dark:text-gray-400 text-sm">{state.entry.number}</p>}
             </div>
           </div>

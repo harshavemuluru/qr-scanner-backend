@@ -5,12 +5,15 @@ create table if not exists public.entries (
   id uuid primary key default gen_random_uuid(),
   name text not null,
   email text,
+  child_name text,
+  age integer,
   number text,
   checkedin boolean not null default false,
   created_at timestamptz not null default now()
 );
 
 create index if not exists entries_created_at_idx on public.entries (created_at desc);
+create unique index if not exists entries_number_key on public.entries (number);
 
 alter table public.entries enable row level security;
 
