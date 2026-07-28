@@ -18,10 +18,20 @@ async function expectedToken(): Promise<string | null> {
     .join("");
 }
 
+// Everything is admin-gated by default except: the public registration
+// page and its create endpoint, the root redirect, and login itself.
+const PUBLIC_PAGES = new Set(["/", "/register", "/login"]);
+
 export async function proxy(request: NextRequest) {
-  // POST /api/entries is the public registration endpoint — anyone can
-  // create an entry. Listing entries (GET) stays admin-only.
-  if (request.nextUrl.pathname === "/api/entries" && request.method === "POST") {
+  const { pathname } = request.nextUrl;
+
+  if (PUBLIC_PAGES.has(pathname)) {
+    return NextResponse.next();
+  }
+  if (pathname.startsWith("/api/auth")) {
+    return NextResponse.next();
+  }
+  if (pathname === "/api/entries" && request.method === "POST") {
     return NextResponse.next();
   }
 
@@ -30,11 +40,11 @@ export async function proxy(request: NextRequest) {
 
   if (!expected || token !== expected) {
     // API routes get a 401, pages get redirected to login
-    if (request.nextUrl.pathname.startsWith("/api/")) {
+    if (pathname.startsWith("/api/")) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
     const loginUrl = new URL("/login", request.url);
-    loginUrl.searchParams.set("next", request.nextUrl.pathname);
+    loginUrl.searchParams.set("next", pathname);
     return NextResponse.redirect(loginUrl);
   }
 
@@ -42,7 +52,8 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  // Protect onboard page and the entries collection endpoint.
-  // /api/entries/[id] (verify + check-in) stays public.
-  matcher: ["/onboard", "/api/entries"],
+  // Match every route except static assets (anything with a file
+  // extension) and Next.js internals — everything else goes through
+  // the allow/deny logic above.
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|.*\\..*).*)"],
 };

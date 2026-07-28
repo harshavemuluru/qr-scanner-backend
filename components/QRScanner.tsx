@@ -2,11 +2,19 @@
 
 import { useEffect, useRef, useState, useCallback } from "react";
 
+interface Adult {
+  name: string;
+}
+
+interface Kid {
+  name: string;
+  age: number;
+}
+
 interface Entry {
   id: string;
-  name: string;
-  child_name: string | null;
-  age: number | null;
+  adults: Adult[];
+  kids: Kid[];
   number: string | null;
   checkedin: boolean;
   created_at: string;
@@ -20,6 +28,20 @@ type ScanState =
   | { status: "found"; entry: Entry }
   | { status: "just_checked_in"; entry: Entry }
   | { status: "checked_in"; entry: Entry };
+
+function adultNames(entry: Entry): string {
+  return (entry.adults ?? []).map((a) => a.name).join(" & ") || "Guest";
+}
+
+function FamilyDetails({ entry }: { entry: Entry }) {
+  const kidsLine = (entry.kids ?? []).map((k) => `${k.name} (${k.age})`).join(", ");
+  return (
+    <>
+      {kidsLine && <p className="text-gray-500 dark:text-gray-400 text-sm">Kids: {kidsLine}</p>}
+      {entry.number && <p className="text-gray-500 dark:text-gray-400 text-sm">{entry.number}</p>}
+    </>
+  );
+}
 
 export default function QRScanner() {
   const scannerRef = useRef<InstanceType<typeof import("html5-qrcode").Html5Qrcode> | null>(null);
@@ -170,13 +192,8 @@ export default function QRScanner() {
               </div>
             </div>
             <div className="space-y-1">
-              <p className="text-gray-900 dark:text-white font-semibold text-lg">{state.entry.name}</p>
-              {state.entry.child_name && (
-                <p className="text-gray-500 dark:text-gray-400 text-sm">
-                  Child: {state.entry.child_name}{state.entry.age != null ? ` (${state.entry.age})` : ""}
-                </p>
-              )}
-              {state.entry.number && <p className="text-gray-500 dark:text-gray-400 text-sm">{state.entry.number}</p>}
+              <p className="text-gray-900 dark:text-white font-semibold text-lg">{adultNames(state.entry)}</p>
+              <FamilyDetails entry={state.entry} />
             </div>
           </div>
           <button
@@ -196,15 +213,10 @@ export default function QRScanner() {
         <div className="space-y-4">
           <div className="rounded-2xl bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 p-6 text-center">
             <div className="text-5xl mb-3">🎉</div>
-            <p className="text-green-700 dark:text-green-400 font-bold text-2xl">Welcome, {state.entry.name}!</p>
+            <p className="text-green-700 dark:text-green-400 font-bold text-2xl">Welcome, {adultNames(state.entry)}!</p>
             <p className="text-green-600 dark:text-green-500 text-sm mt-1">Checked in successfully</p>
             <div className="mt-4 space-y-1">
-              {state.entry.child_name && (
-                <p className="text-gray-500 dark:text-gray-400 text-sm">
-                  Child: {state.entry.child_name}{state.entry.age != null ? ` (${state.entry.age})` : ""}
-                </p>
-              )}
-              {state.entry.number && <p className="text-gray-500 dark:text-gray-400 text-sm">{state.entry.number}</p>}
+              <FamilyDetails entry={state.entry} />
             </div>
           </div>
           <button onClick={reset} className="w-full py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition">
@@ -224,13 +236,8 @@ export default function QRScanner() {
               </div>
             </div>
             <div className="space-y-1">
-              <p className="text-gray-900 dark:text-white font-semibold text-lg">{state.entry.name}</p>
-              {state.entry.child_name && (
-                <p className="text-gray-500 dark:text-gray-400 text-sm">
-                  Child: {state.entry.child_name}{state.entry.age != null ? ` (${state.entry.age})` : ""}
-                </p>
-              )}
-              {state.entry.number && <p className="text-gray-500 dark:text-gray-400 text-sm">{state.entry.number}</p>}
+              <p className="text-gray-900 dark:text-white font-semibold text-lg">{adultNames(state.entry)}</p>
+              <FamilyDetails entry={state.entry} />
             </div>
           </div>
           <button onClick={reset} className="w-full py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition">

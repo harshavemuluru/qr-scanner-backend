@@ -16,24 +16,30 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
       <header className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
         <div className="max-w-lg mx-auto px-4 h-14 flex items-center justify-between">
           <span className="font-bold text-gray-900 dark:text-white tracking-tight">LateCheckout x LittlePreneurs</span>
-          <nav className="flex gap-1 items-center">
+          <nav className="flex flex-wrap gap-1 items-center justify-end">
             <Link
               href="/register"
-              className="px-4 py-1.5 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-violet-700 dark:hover:text-violet-400 hover:bg-violet-50 dark:hover:bg-violet-900/20 transition"
+              className="px-3 py-1.5 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-violet-700 dark:hover:text-violet-400 hover:bg-violet-50 dark:hover:bg-violet-900/20 transition"
             >
               Register
             </Link>
             <Link
               href="/onboard"
-              className="px-4 py-1.5 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-violet-700 dark:hover:text-violet-400 hover:bg-violet-50 dark:hover:bg-violet-900/20 transition"
+              className="px-3 py-1.5 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-violet-700 dark:hover:text-violet-400 hover:bg-violet-50 dark:hover:bg-violet-900/20 transition"
             >
               Onboard
             </Link>
             <Link
               href="/verify"
-              className="px-4 py-1.5 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-violet-700 dark:hover:text-violet-400 hover:bg-violet-50 dark:hover:bg-violet-900/20 transition"
+              className="px-3 py-1.5 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-violet-700 dark:hover:text-violet-400 hover:bg-violet-50 dark:hover:bg-violet-900/20 transition"
             >
               Verify
+            </Link>
+            <Link
+              href="/admin"
+              className="px-3 py-1.5 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-violet-700 dark:hover:text-violet-400 hover:bg-violet-50 dark:hover:bg-violet-900/20 transition"
+            >
+              Admin
             </Link>
             <LogoutButton />
           </nav>

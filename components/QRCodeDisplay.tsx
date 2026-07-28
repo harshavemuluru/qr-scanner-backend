@@ -3,17 +3,36 @@
 import { QRCodeSVG } from "qrcode.react";
 import { useRef } from "react";
 
+interface Adult {
+  name: string;
+}
+
+interface Kid {
+  name: string;
+  age: number;
+}
+
 interface Entry {
   id: string;
-  name: string;
-  child_name: string | null;
-  age: number | null;
+  adults: Adult[];
+  kids: Kid[];
   number: string | null;
   checkedin: boolean;
 }
 
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
 export default function QRCodeDisplay({ entry }: { entry: Entry }) {
   const qrRef = useRef<HTMLDivElement>(null);
+  const adultNames = (entry.adults ?? []).map((a) => a.name).join(" & ");
+  const kidsLine = (entry.kids ?? []).map((k) => `${k.name} (${k.age})`).join(", ");
 
   const handlePrint = () => {
     const svg = qrRef.current?.querySelector("svg");
@@ -22,11 +41,11 @@ export default function QRCodeDisplay({ entry }: { entry: Entry }) {
     const win = window.open("", "_blank");
     if (!win) return;
     win.document.write(`
-      <html><head><title>QR – ${entry.name}</title></head>
+      <html><head><title>QR – ${escapeHtml(adultNames)}</title></head>
       <body style="text-align:center;font-family:sans-serif;padding:40px">
-        <h2 style="margin-bottom:8px">${entry.name}</h2>
-        ${entry.child_name ? `<p style="color:#666;margin:4px 0">Child: ${entry.child_name}${entry.age != null ? ` (${entry.age})` : ""}</p>` : ""}
-        ${entry.number ? `<p style="color:#666;margin:4px 0">${entry.number}</p>` : ""}
+        <h2 style="margin-bottom:8px">${escapeHtml(adultNames)}</h2>
+        ${kidsLine ? `<p style="color:#666;margin:4px 0">Kids: ${escapeHtml(kidsLine)}</p>` : ""}
+        ${entry.number ? `<p style="color:#666;margin:4px 0">${escapeHtml(entry.number)}</p>` : ""}
         <div style="margin:24px auto;display:inline-block">${svgData}</div>
 
       </body></html>
@@ -41,14 +60,9 @@ export default function QRCodeDisplay({ entry }: { entry: Entry }) {
         <QRCodeSVG value={entry.id} size={200} level="H" />
       </div>
       <div className="text-center">
-        <p className="font-semibold text-gray-900 dark:text-white">{entry.name}</p>
-        {entry.child_name && (
-          <p className="text-sm text-gray-500 dark:text-gray-400">
-            Child: {entry.child_name}{entry.age != null ? ` (${entry.age})` : ""}
-          </p>
-        )}
+        <p className="font-semibold text-gray-900 dark:text-white">{adultNames}</p>
+        {kidsLine && <p className="text-sm text-gray-500 dark:text-gray-400">Kids: {kidsLine}</p>}
         {entry.number && <p className="text-sm text-gray-500 dark:text-gray-400">{entry.number}</p>}
-
       </div>
       <button
         onClick={handlePrint}

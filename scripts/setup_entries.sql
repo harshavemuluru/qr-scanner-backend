@@ -3,13 +3,17 @@ create extension if not exists pgcrypto;
 
 create table if not exists public.entries (
   id uuid primary key default gen_random_uuid(),
-  name text not null,
-  email text,
-  child_name text,
-  age integer,
+  adults jsonb not null default '[]'::jsonb,
+  kids jsonb not null default '[]'::jsonb,
   number text,
   checkedin boolean not null default false,
-  created_at timestamptz not null default now()
+  created_at timestamptz not null default now(),
+  -- Legacy columns from the single adult/child schema; unused by the
+  -- app but kept nullable in case older data still references them.
+  name text,
+  email text,
+  child_name text,
+  age integer
 );
 
 create index if not exists entries_created_at_idx on public.entries (created_at desc);
@@ -38,3 +42,10 @@ create policy "entries_update_all"
   to anon, authenticated
   using (true)
   with check (true);
+
+drop policy if exists "entries_delete_all" on public.entries;
+create policy "entries_delete_all"
+  on public.entries
+  for delete
+  to anon, authenticated
+  using (true);

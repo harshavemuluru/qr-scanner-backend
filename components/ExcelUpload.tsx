@@ -4,9 +4,8 @@ import { useState, useRef, DragEvent } from "react";
 import * as XLSX from "xlsx";
 
 interface ParsedRow {
-  name: string;
-  childName: string;
-  age: string;
+  adults: { name: string }[];
+  kids: { name: string; age: string }[];
   number: string;
 }
 
@@ -46,17 +45,23 @@ export default function ExcelUpload() {
         const parsed: ParsedRow[] = raw.map((r) => {
           const find = (key: string) =>
             Object.entries(r).find(([k]) => k.toLowerCase().trim() === key)?.[1]?.toString().trim() ?? "";
-          return {
-            name: find("name"),
-            childName: find("child_name") || find("child's name") || find("childname"),
-            age: find("age"),
-            number: find("number"),
-          };
+
+          const adults = [find("adult1_name"), find("adult2_name")]
+            .filter((name) => name)
+            .map((name) => ({ name }));
+
+          const kids = [1, 2, 3]
+            .map((n) => ({ name: find(`kid${n}_name`), age: find(`kid${n}_age`) }))
+            .filter((k) => k.name);
+
+          return { adults, kids, number: find("number") };
         });
 
-        const valid = parsed.filter((r) => r.name && r.childName && r.age && r.number);
+        const valid = parsed.filter((r) => r.adults.length > 0 && r.kids.length > 0 && r.number);
         if (valid.length === 0) {
-          setParseError('No valid rows found. Ensure the sheet has "name", "child_name", "age", and "number" columns with values.');
+          setParseError(
+            'No valid rows found. Ensure the sheet has "adult1_name", "kid1_name", "kid1_age", and "number" columns with values.'
+          );
           return;
         }
 
@@ -82,6 +87,7 @@ export default function ExcelUpload() {
 
     for (let i = 0; i < rows.length; i++) {
       const row = rows[i];
+      const label = row.adults.map((a) => a.name).join(" & ");
       try {
         const res = await fetch("/api/entries", {
           method: "POST",
@@ -92,10 +98,10 @@ export default function ExcelUpload() {
           success++;
         } else {
           const d = await res.json();
-          errors.push({ row: i + 1, name: row.name, error: d.error || "Failed" });
+          errors.push({ row: i + 1, name: label, error: d.error || "Failed" });
         }
       } catch {
-        errors.push({ row: i + 1, name: row.name, error: "Network error" });
+        errors.push({ row: i + 1, name: label, error: "Network error" });
       }
     }
 
@@ -162,7 +168,16 @@ export default function ExcelUpload() {
           {fileName ? fileName : "Drop your file here or click to browse"}
         </p>
         <p className="text-sm text-gray-400 dark:text-gray-500 mt-1">Supports .xlsx, .xls, .csv</p>
-        <p className="text-xs text-gray-400 dark:text-gray-500 mt-3">Required columns: <code className="bg-gray-100 dark:bg-gray-700 dark:text-gray-300 px-1 rounded">name</code>, <code className="bg-gray-100 dark:bg-gray-700 dark:text-gray-300 px-1 rounded">child_name</code>, <code className="bg-gray-100 dark:bg-gray-700 dark:text-gray-300 px-1 rounded">age</code>, <code className="bg-gray-100 dark:bg-gray-700 dark:text-gray-300 px-1 rounded">number</code></p>
+        <p className="text-xs text-gray-400 dark:text-gray-500 mt-3">
+          Required columns: <code className="bg-gray-100 dark:bg-gray-700 dark:text-gray-300 px-1 rounded">adult1_name</code>,{" "}
+          <code className="bg-gray-100 dark:bg-gray-700 dark:text-gray-300 px-1 rounded">kid1_name</code>,{" "}
+          <code className="bg-gray-100 dark:bg-gray-700 dark:text-gray-300 px-1 rounded">kid1_age</code>,{" "}
+          <code className="bg-gray-100 dark:bg-gray-700 dark:text-gray-300 px-1 rounded">number</code>
+          <br />
+          Optional: <code className="bg-gray-100 dark:bg-gray-700 dark:text-gray-300 px-1 rounded">adult2_name</code>,{" "}
+          <code className="bg-gray-100 dark:bg-gray-700 dark:text-gray-300 px-1 rounded">kid2_name</code> / <code className="bg-gray-100 dark:bg-gray-700 dark:text-gray-300 px-1 rounded">kid2_age</code>,{" "}
+          <code className="bg-gray-100 dark:bg-gray-700 dark:text-gray-300 px-1 rounded">kid3_name</code> / <code className="bg-gray-100 dark:bg-gray-700 dark:text-gray-300 px-1 rounded">kid3_age</code>
+        </p>
       </div>
 
       {parseError && (
@@ -181,9 +196,8 @@ export default function ExcelUpload() {
                 <thead className="bg-gray-50 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-600 sticky top-0">
                   <tr>
                     <th className="px-4 py-2 text-left font-medium text-gray-600 dark:text-gray-300">#</th>
-                    <th className="px-4 py-2 text-left font-medium text-gray-600 dark:text-gray-300">Name</th>
-                    <th className="px-4 py-2 text-left font-medium text-gray-600 dark:text-gray-300">Child&apos;s Name</th>
-                    <th className="px-4 py-2 text-left font-medium text-gray-600 dark:text-gray-300">Age</th>
+                    <th className="px-4 py-2 text-left font-medium text-gray-600 dark:text-gray-300">Adults</th>
+                    <th className="px-4 py-2 text-left font-medium text-gray-600 dark:text-gray-300">Kids</th>
                     <th className="px-4 py-2 text-left font-medium text-gray-600 dark:text-gray-300">Number</th>
                   </tr>
                 </thead>
@@ -191,9 +205,10 @@ export default function ExcelUpload() {
                   {rows.map((r, i) => (
                     <tr key={i} className="border-b border-gray-100 dark:border-gray-700 last:border-0">
                       <td className="px-4 py-2 text-gray-400 dark:text-gray-500">{i + 1}</td>
-                      <td className="px-4 py-2 text-gray-900 dark:text-white">{r.name}</td>
-                      <td className="px-4 py-2 text-gray-500 dark:text-gray-400">{r.childName || "—"}</td>
-                      <td className="px-4 py-2 text-gray-500 dark:text-gray-400">{r.age || "—"}</td>
+                      <td className="px-4 py-2 text-gray-900 dark:text-white">{r.adults.map((a) => a.name).join(" & ") || "—"}</td>
+                      <td className="px-4 py-2 text-gray-500 dark:text-gray-400">
+                        {r.kids.map((k) => `${k.name} (${k.age})`).join(", ") || "—"}
+                      </td>
                       <td className="px-4 py-2 text-gray-500 dark:text-gray-400">{r.number || "—"}</td>
                     </tr>
                   ))}
