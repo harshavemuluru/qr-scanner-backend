@@ -146,7 +146,7 @@ export default function AdminSearch() {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search by name or phone number"
-          className="flex-1 px-4 py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
+          className="flex-1 px-4 py-2.5 rounded-xl border border-[#E8D9C3] bg-white focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent text-[#2B2420] placeholder-[#B5A88F]"
         />
         <button
           type="submit"
@@ -158,62 +158,62 @@ export default function AdminSearch() {
       </form>
 
       {searchError && (
-        <div className="rounded-xl bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 p-3 text-red-700 dark:text-red-400 text-sm">
+        <div className="rounded-xl bg-red-50 border border-red-200 p-3 text-red-700 text-sm">
           {searchError}
         </div>
       )}
 
       {results && (
         <div className="space-y-2">
-          <p className="text-sm text-gray-500 dark:text-gray-400">
+          <p className="text-sm text-[#5B4B3A]">
             {results.length} match{results.length === 1 ? "" : "es"}
           </p>
-          <div className="rounded-xl border border-gray-200 dark:border-gray-700 divide-y divide-gray-200 dark:divide-gray-700 overflow-hidden">
+          <div className="rounded-xl border border-[#F0DFC4] divide-y divide-[#F0DFC4] overflow-hidden">
             {results.map((entry) => (
               <button
                 key={entry.id}
                 onClick={() => select(entry)}
-                className={`w-full text-left px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition ${
-                  selected?.id === entry.id ? "bg-violet-50 dark:bg-violet-900/20" : ""
+                className={`w-full text-left px-4 py-3 hover:bg-[#FBF1E3] transition ${
+                  selected?.id === entry.id ? "bg-violet-50" : ""
                 }`}
               >
-                <p className="font-medium text-gray-900 dark:text-white">
+                <p className="font-medium text-[#2B2420]">
                   {entry.adults?.map((a) => a.name).join(" & ") || "—"}
                 </p>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
+                <p className="text-sm text-[#5B4B3A]">
                   {entry.number} · {entry.kids?.length ?? 0} kid{(entry.kids?.length ?? 0) === 1 ? "" : "s"} ·{" "}
                   {entry.checkedin ? "Checked in" : "Not checked in"}
                 </p>
               </button>
             ))}
             {results.length === 0 && (
-              <p className="px-4 py-6 text-center text-sm text-gray-400 dark:text-gray-500">No matches</p>
+              <p className="px-4 py-6 text-center text-sm text-[#B5A88F]">No matches</p>
             )}
           </div>
         </div>
       )}
 
       {selected && (
-        <div className="rounded-2xl border border-gray-200 dark:border-gray-700 p-5 space-y-5 bg-white dark:bg-gray-800">
+        <div className="rounded-2xl border border-[#F0DFC4] p-5 space-y-5 bg-white">
           <div className="flex items-center justify-between">
-            <h2 className="font-semibold text-gray-900 dark:text-white">Edit entry</h2>
-            <span className="text-xs text-gray-400 dark:text-gray-500 font-mono">{selected.id}</span>
+            <h2 className="font-semibold text-[#2B2420]">Edit entry</h2>
+            <span className="text-xs text-[#B5A88F] font-mono">{selected.id}</span>
           </div>
 
           {saveError && (
-            <div className="rounded-xl bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 p-3 text-red-700 dark:text-red-400 text-sm">
+            <div className="rounded-xl bg-red-50 border border-red-200 p-3 text-red-700 text-sm">
               {saveError}
             </div>
           )}
           {saveOk && (
-            <div className="rounded-xl bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 p-3 text-green-700 dark:text-green-400 text-sm">
+            <div className="rounded-xl bg-green-50 border border-green-200 p-3 text-green-700 text-sm">
               Saved.
             </div>
           )}
 
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <span className="text-sm font-semibold text-gray-800 dark:text-gray-100">Adults</span>
+              <span className="text-sm font-semibold text-[#2B2420]">Adults</span>
               {adults.length < MAX_ADULTS && (
                 <button type="button" onClick={addAdult} className="text-sm font-medium text-violet-600 hover:text-violet-700">
                   + Add adult
@@ -226,10 +226,10 @@ export default function AdminSearch() {
                   type="text"
                   value={adult.name}
                   onChange={(e) => updateAdult(i, e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent text-gray-900 dark:text-white"
+                  className="w-full px-4 py-2.5 rounded-xl border border-[#E8D9C3] bg-white focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent text-[#2B2420]"
                 />
                 {adults.length > 1 && (
-                  <button type="button" onClick={() => removeAdult(i)} className="text-gray-400 hover:text-red-500" aria-label="Remove adult">
+                  <button type="button" onClick={() => removeAdult(i)} className="text-[#B5A88F] hover:text-red-500" aria-label="Remove adult">
                     ✕
                   </button>
                 )}
@@ -239,7 +239,7 @@ export default function AdminSearch() {
 
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <span className="text-sm font-semibold text-gray-800 dark:text-gray-100">Kids</span>
+              <span className="text-sm font-semibold text-[#2B2420]">Kids</span>
               {kids.length < MAX_KIDS && (
                 <button type="button" onClick={addKid} className="text-sm font-medium text-violet-600 hover:text-violet-700">
                   + Add kid
@@ -253,7 +253,7 @@ export default function AdminSearch() {
                   value={kid.name}
                   onChange={(e) => updateKid(i, "name", e.target.value)}
                   placeholder="Name"
-                  className="w-full px-4 py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent text-gray-900 dark:text-white"
+                  className="w-full px-4 py-2.5 rounded-xl border border-[#E8D9C3] bg-white focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent text-[#2B2420]"
                 />
                 <input
                   type="number"
@@ -261,10 +261,10 @@ export default function AdminSearch() {
                   onChange={(e) => updateKid(i, "age", e.target.value)}
                   min={0}
                   placeholder="Age"
-                  className="w-24 px-4 py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent text-gray-900 dark:text-white"
+                  className="w-24 px-4 py-2.5 rounded-xl border border-[#E8D9C3] bg-white focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent text-[#2B2420]"
                 />
                 {kids.length > 1 && (
-                  <button type="button" onClick={() => removeKid(i)} className="text-gray-400 hover:text-red-500" aria-label="Remove kid">
+                  <button type="button" onClick={() => removeKid(i)} className="text-[#B5A88F] hover:text-red-500" aria-label="Remove kid">
                     ✕
                   </button>
                 )}
@@ -273,21 +273,21 @@ export default function AdminSearch() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Phone Number</label>
+            <label className="block text-sm font-medium text-[#5B4B3A] mb-1">Phone Number</label>
             <input
               type="tel"
               value={number}
               onChange={(e) => setNumber(e.target.value)}
-              className="w-full px-4 py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent text-gray-900 dark:text-white"
+              className="w-full px-4 py-2.5 rounded-xl border border-[#E8D9C3] bg-white focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent text-[#2B2420]"
             />
           </div>
 
-          <label className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
+          <label className="flex items-center gap-2 text-sm text-[#5B4B3A]">
             <input
               type="checkbox"
               checked={checkedin}
               onChange={(e) => setCheckedin(e.target.checked)}
-              className="rounded border-gray-300 dark:border-gray-600 text-violet-600 focus:ring-violet-500"
+              className="rounded border-[#E8D9C3] text-violet-600 focus:ring-violet-500"
             />
             Checked in
           </label>
@@ -303,7 +303,7 @@ export default function AdminSearch() {
             {!confirmingDelete ? (
               <button
                 onClick={() => setConfirmingDelete(true)}
-                className="px-4 py-2.5 rounded-xl border border-red-300 dark:border-red-800 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition"
+                className="px-4 py-2.5 rounded-xl border border-red-300 text-red-600 hover:bg-red-50 transition"
               >
                 Delete
               </button>
@@ -318,7 +318,7 @@ export default function AdminSearch() {
                 </button>
                 <button
                   onClick={() => setConfirmingDelete(false)}
-                  className="px-4 py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition"
+                  className="px-4 py-2.5 rounded-xl border border-[#E8D9C3] text-[#5B4B3A] hover:bg-[#FBF1E3] transition"
                 >
                   Cancel
                 </button>
@@ -326,8 +326,8 @@ export default function AdminSearch() {
             )}
           </div>
 
-          <div className="pt-2 border-t border-gray-200 dark:border-gray-700">
-            <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">QR pass</p>
+          <div className="pt-2 border-t border-[#F0DFC4]">
+            <p className="text-xs text-[#5B4B3A] mb-3">QR pass</p>
             <QRCodeDisplay entry={selected} />
           </div>
         </div>

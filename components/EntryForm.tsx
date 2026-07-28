@@ -33,28 +33,22 @@ export default function EntryForm({ accent = "violet" }: { accent?: "violet" | "
   const [created, setCreated] = useState<Entry | null>(null);
 
   const isCoral = accent === "coral";
-  const labelClass = isCoral
-    ? "block text-sm font-medium text-[#5B4B3A] mb-1"
-    : "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1";
+  const labelClass = "block text-sm font-medium text-[#5B4B3A] mb-1";
+  const sectionLabelClass = "text-sm font-semibold text-[#2B2420]";
+  const hintClass = "text-xs text-[#5B4B3A]";
+  const secondaryButtonClass = "w-full py-2.5 rounded-xl border border-[#E8D9C3] text-[#5B4B3A] hover:bg-[#FBF1E3] transition";
+  const removeButtonClass = isCoral
+    ? "text-[#B5A88F] hover:text-[#D8624A]"
+    : "text-[#B5A88F] hover:text-red-500";
   const inputClass = isCoral
     ? "w-full px-4 py-2.5 rounded-xl border border-[#E8D9C3] bg-white focus:outline-none focus:ring-2 focus:ring-[#E8735A] focus:border-transparent text-[#2B2420] placeholder-[#B5A88F]"
-    : "w-full px-4 py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500";
+    : "w-full px-4 py-2.5 rounded-xl border border-[#E8D9C3] bg-white focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent text-[#2B2420] placeholder-[#B5A88F]";
   const buttonClass = isCoral
     ? "w-full py-3 rounded-xl bg-[#E8735A] text-white font-semibold hover:bg-[#D8624A] disabled:opacity-50 disabled:cursor-not-allowed transition"
     : "w-full py-3 rounded-xl bg-violet-600 text-white font-semibold hover:bg-violet-700 disabled:opacity-50 disabled:cursor-not-allowed transition";
-  const secondaryButtonClass = isCoral
-    ? "w-full py-2.5 rounded-xl border border-[#E8D9C3] text-[#5B4B3A] hover:bg-[#FBF1E3] transition"
-    : "w-full py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition";
   const addButtonClass = isCoral
     ? "text-sm font-medium text-[#E8735A] hover:text-[#D8624A]"
     : "text-sm font-medium text-violet-600 hover:text-violet-700";
-  const removeButtonClass = isCoral
-    ? "text-[#B5A88F] hover:text-[#D8624A]"
-    : "text-gray-400 hover:text-red-500";
-  const sectionLabelClass = isCoral
-    ? "text-sm font-semibold text-[#2B2420]"
-    : "text-sm font-semibold text-gray-800 dark:text-gray-100";
-  const hintClass = isCoral ? "text-xs text-[#5B4B3A]" : "text-xs text-gray-500 dark:text-gray-400";
 
   const updateAdult = (i: number, name: string) => {
     setAdults((prev) => prev.map((a, idx) => (idx === i ? { name } : a)));
@@ -103,9 +97,9 @@ export default function EntryForm({ accent = "violet" }: { accent?: "violet" | "
   if (created) {
     return (
       <div className="space-y-6">
-        <div className="rounded-2xl bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 p-6 text-center">
-          <p className="text-green-700 dark:text-green-400 font-semibold text-lg mb-1">Entry created!</p>
-          <p className="text-green-600 dark:text-green-500 text-sm">Share or print this QR code for your family</p>
+        <div className="rounded-2xl bg-green-50 border border-green-200 p-6 text-center">
+          <p className="text-green-700 font-semibold text-lg mb-1">Entry created!</p>
+          <p className="text-green-600 text-sm">Share or print this QR code for your family</p>
         </div>
         <QRCodeDisplay entry={created} />
         <button onClick={() => setCreated(null)} className={secondaryButtonClass}>
@@ -118,7 +112,7 @@ export default function EntryForm({ accent = "violet" }: { accent?: "violet" | "
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
       {error && (
-        <div className="rounded-xl bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 p-3 text-red-700 dark:text-red-400 text-sm">
+        <div className="rounded-xl bg-red-50 border border-red-200 p-3 text-red-700 text-sm">
           {error}
         </div>
       )}

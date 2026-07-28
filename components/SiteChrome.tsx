@@ -4,6 +4,9 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import LogoutButton from "./LogoutButton";
 
+const navLinkClass =
+  "px-2 py-1.5 rounded-lg text-xs sm:text-sm font-medium text-[#5B4B3A] hover:text-[#E8735A] hover:bg-white/70 transition shrink-0 whitespace-nowrap";
+
 export default function SiteChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
@@ -13,32 +16,19 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
 
   return (
     <>
-      <header className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
-        <div className="max-w-lg mx-auto px-4 h-14 flex items-center justify-between">
-          <span className="font-bold text-gray-900 dark:text-white tracking-tight">LateCheckout x LittlePreneurs</span>
-          <nav className="flex flex-wrap gap-1 items-center justify-end">
-            <Link
-              href="/register"
-              className="px-3 py-1.5 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-violet-700 dark:hover:text-violet-400 hover:bg-violet-50 dark:hover:bg-violet-900/20 transition"
-            >
-              Register
-            </Link>
-            <Link
-              href="/onboard"
-              className="px-3 py-1.5 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-violet-700 dark:hover:text-violet-400 hover:bg-violet-50 dark:hover:bg-violet-900/20 transition"
-            >
+      <header className="bg-[#FBF1E3]/95 backdrop-blur border-b border-[#F0DFC4] sticky top-0 z-10">
+        <div className="max-w-lg mx-auto px-4 h-14 flex items-center justify-between gap-2">
+          <Link href="/register" className="font-serif text-base sm:text-lg font-bold text-[#2B2420] tracking-tight shrink-0">
+            Little<span className="text-[#E8735A]">Preneurs</span>
+          </Link>
+          <nav className="flex items-center gap-0.5">
+            <Link href="/onboard" className={navLinkClass}>
               Onboard
             </Link>
-            <Link
-              href="/verify"
-              className="px-3 py-1.5 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-violet-700 dark:hover:text-violet-400 hover:bg-violet-50 dark:hover:bg-violet-900/20 transition"
-            >
+            <Link href="/verify" className={navLinkClass}>
               Verify
             </Link>
-            <Link
-              href="/admin"
-              className="px-3 py-1.5 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-violet-700 dark:hover:text-violet-400 hover:bg-violet-50 dark:hover:bg-violet-900/20 transition"
-            >
+            <Link href="/admin" className={navLinkClass}>
               Admin
             </Link>
             <LogoutButton />

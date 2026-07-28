@@ -37,8 +37,8 @@ function FamilyDetails({ entry }: { entry: Entry }) {
   const kidsLine = (entry.kids ?? []).map((k) => `${k.name} (${k.age})`).join(", ");
   return (
     <>
-      {kidsLine && <p className="text-gray-500 dark:text-gray-400 text-sm">Kids: {kidsLine}</p>}
-      {entry.number && <p className="text-gray-500 dark:text-gray-400 text-sm">{entry.number}</p>}
+      {kidsLine && <p className="text-[#5B4B3A] text-sm">Kids: {kidsLine}</p>}
+      {entry.number && <p className="text-[#5B4B3A] text-sm">{entry.number}</p>}
     </>
   );
 }
@@ -138,7 +138,7 @@ export default function QRScanner() {
       {(state.status === "idle") && (
         <div className="text-center space-y-4">
           <div className="text-6xl">📷</div>
-          <p className="text-gray-500 dark:text-gray-400">Ready to scan a VIP QR code</p>
+          <p className="text-[#5B4B3A]">Ready to scan a VIP QR code</p>
           <button
             onClick={startScanner}
             className="px-8 py-3 rounded-xl bg-violet-600 text-white font-semibold hover:bg-violet-700 transition"
@@ -153,7 +153,7 @@ export default function QRScanner() {
           <div id="qr-reader" className="rounded-2xl overflow-hidden w-full max-w-sm mx-auto" />
           <button
             onClick={async () => { await stopScanner(); setState({ status: "idle" }); }}
-            className="w-full py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition"
+            className="w-full py-2.5 rounded-xl border border-[#E8D9C3] text-[#5B4B3A] hover:bg-[#FBF1E3] transition"
           >
             Cancel
           </button>
@@ -163,19 +163,19 @@ export default function QRScanner() {
       {state.status === "loading" && (
         <div className="text-center py-12 space-y-3">
           <div className="w-12 h-12 border-4 border-violet-600 border-t-transparent rounded-full animate-spin mx-auto" />
-          <p className="text-gray-500 dark:text-gray-400">Looking up entry...</p>
+          <p className="text-[#5B4B3A]">Looking up entry...</p>
         </div>
       )}
 
       {state.status === "not_found" && (
         <div className="space-y-4">
-          <div className="rounded-2xl bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 p-6 text-center">
+          <div className="rounded-2xl bg-red-50 border border-red-200 p-6 text-center">
             <div className="text-4xl mb-3">❌</div>
-            <p className="text-red-700 dark:text-red-400 font-semibold text-lg">Invalid QR Code</p>
-            <p className="text-red-500 dark:text-red-400 text-sm mt-1 font-mono break-all">{state.scannedId}</p>
-            <p className="text-red-400 dark:text-red-500 text-sm mt-1">No entry found with this ID</p>
+            <p className="text-red-700 font-semibold text-lg">Invalid QR Code</p>
+            <p className="text-red-500 text-sm mt-1 font-mono break-all">{state.scannedId}</p>
+            <p className="text-red-400 text-sm mt-1">No entry found with this ID</p>
           </div>
-          <button onClick={reset} className="w-full py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition">
+          <button onClick={reset} className="w-full py-2.5 rounded-xl border border-[#E8D9C3] text-[#5B4B3A] hover:bg-[#FBF1E3] transition">
             Scan Again
           </button>
         </div>
@@ -183,16 +183,16 @@ export default function QRScanner() {
 
       {state.status === "found" && (
         <div className="space-y-4">
-          <div className="rounded-2xl bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 p-6">
+          <div className="rounded-2xl bg-green-50 border border-green-200 p-6">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-full bg-green-100 dark:bg-green-800 flex items-center justify-center text-lg">✓</div>
+              <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-lg">✓</div>
               <div>
-                <p className="text-green-700 dark:text-green-400 font-semibold">Valid VIP Entry</p>
-                <p className="text-green-500 dark:text-green-500 text-xs">Not yet checked in</p>
+                <p className="text-green-700 font-semibold">Valid VIP Entry</p>
+                <p className="text-green-500 text-xs">Not yet checked in</p>
               </div>
             </div>
             <div className="space-y-1">
-              <p className="text-gray-900 dark:text-white font-semibold text-lg">{adultNames(state.entry)}</p>
+              <p className="text-[#2B2420] font-semibold text-lg">{adultNames(state.entry)}</p>
               <FamilyDetails entry={state.entry} />
             </div>
           </div>
@@ -203,7 +203,7 @@ export default function QRScanner() {
           >
             {checkingIn ? "Checking in..." : "Check In"}
           </button>
-          <button onClick={reset} className="w-full py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition">
+          <button onClick={reset} className="w-full py-2.5 rounded-xl border border-[#E8D9C3] text-[#5B4B3A] hover:bg-[#FBF1E3] transition">
             Scan Another
           </button>
         </div>
@@ -211,15 +211,15 @@ export default function QRScanner() {
 
       {state.status === "just_checked_in" && (
         <div className="space-y-4">
-          <div className="rounded-2xl bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 p-6 text-center">
+          <div className="rounded-2xl bg-green-50 border border-green-200 p-6 text-center">
             <div className="text-5xl mb-3">🎉</div>
-            <p className="text-green-700 dark:text-green-400 font-bold text-2xl">Welcome, {adultNames(state.entry)}!</p>
-            <p className="text-green-600 dark:text-green-500 text-sm mt-1">Checked in successfully</p>
+            <p className="text-green-700 font-bold text-2xl">Welcome, {adultNames(state.entry)}!</p>
+            <p className="text-green-600 text-sm mt-1">Checked in successfully</p>
             <div className="mt-4 space-y-1">
               <FamilyDetails entry={state.entry} />
             </div>
           </div>
-          <button onClick={reset} className="w-full py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition">
+          <button onClick={reset} className="w-full py-2.5 rounded-xl border border-[#E8D9C3] text-[#5B4B3A] hover:bg-[#FBF1E3] transition">
             Scan Another
           </button>
         </div>
@@ -227,20 +227,20 @@ export default function QRScanner() {
 
       {state.status === "checked_in" && (
         <div className="space-y-4">
-          <div className="rounded-2xl bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 p-6">
+          <div className="rounded-2xl bg-amber-50 border border-amber-200 p-6">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-full bg-amber-100 dark:bg-amber-800 flex items-center justify-center text-lg">⚠️</div>
+              <div className="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center text-lg">⚠️</div>
               <div>
-                <p className="text-amber-700 dark:text-amber-400 font-semibold">Already Checked In</p>
-                <p className="text-amber-500 dark:text-amber-500 text-xs">This VIP has already entered</p>
+                <p className="text-amber-700 font-semibold">Already Checked In</p>
+                <p className="text-amber-500 text-xs">This VIP has already entered</p>
               </div>
             </div>
             <div className="space-y-1">
-              <p className="text-gray-900 dark:text-white font-semibold text-lg">{adultNames(state.entry)}</p>
+              <p className="text-[#2B2420] font-semibold text-lg">{adultNames(state.entry)}</p>
               <FamilyDetails entry={state.entry} />
             </div>
           </div>
-          <button onClick={reset} className="w-full py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition">
+          <button onClick={reset} className="w-full py-2.5 rounded-xl border border-[#E8D9C3] text-[#5B4B3A] hover:bg-[#FBF1E3] transition">
             Scan Another
           </button>
         </div>

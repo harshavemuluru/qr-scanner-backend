@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${geist.variable} ${fraunces.variable} h-full antialiased`}>
-      <body className="min-h-screen bg-gray-50 dark:bg-gray-950 flex flex-col">
+      <body className="min-h-screen bg-[#FBF1E3] flex flex-col">
         <SiteChrome>{children}</SiteChrome>
       </body>
     </html>

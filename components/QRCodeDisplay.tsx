@@ -55,18 +55,18 @@ export default function QRCodeDisplay({ entry }: { entry: Entry }) {
   };
 
   return (
-    <div className="rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 flex flex-col items-center gap-4">
+    <div className="rounded-2xl border border-[#F0DFC4] bg-white p-6 flex flex-col items-center gap-4">
       <div ref={qrRef}>
         <QRCodeSVG value={entry.id} size={200} level="H" />
       </div>
       <div className="text-center">
-        <p className="font-semibold text-gray-900 dark:text-white">{adultNames}</p>
-        {kidsLine && <p className="text-sm text-gray-500 dark:text-gray-400">Kids: {kidsLine}</p>}
-        {entry.number && <p className="text-sm text-gray-500 dark:text-gray-400">{entry.number}</p>}
+        <p className="font-semibold text-[#2B2420]">{adultNames}</p>
+        {kidsLine && <p className="text-sm text-[#5B4B3A]">Kids: {kidsLine}</p>}
+        {entry.number && <p className="text-sm text-[#5B4B3A]">{entry.number}</p>}
       </div>
       <button
         onClick={handlePrint}
-        className="px-5 py-2 rounded-xl bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm font-medium hover:bg-gray-200 dark:hover:bg-gray-600 transition"
+        className="px-5 py-2 rounded-xl bg-[#F0DFC4]/50 text-[#5B4B3A] text-sm font-medium hover:bg-[#F0DFC4] transition"
       >
         Print / Save QR
       </button>

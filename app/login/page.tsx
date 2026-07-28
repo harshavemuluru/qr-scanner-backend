@@ -38,9 +38,7 @@ function LoginForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
-        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-          Admin Passcode
-        </label>
+        <label className="block text-sm font-medium text-[#5B4B3A] mb-1">Admin Passcode</label>
         <input
           type="password"
           value={passcode}
@@ -48,12 +46,10 @@ function LoginForm() {
           required
           autoFocus
           placeholder="Enter passcode"
-          className="w-full px-4 py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
+          className="w-full px-4 py-2.5 rounded-xl border border-[#E8D9C3] bg-white focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent text-[#2B2420] placeholder-[#B5A88F]"
         />
       </div>
-      {error && (
-        <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
-      )}
+      {error && <p className="text-sm text-red-600">{error}</p>}
       <button
         type="submit"
         disabled={loading}
@@ -68,10 +64,10 @@ function LoginForm() {
 export default function LoginPage() {
   return (
     <div className="min-h-[50vh] flex items-center justify-center">
-      <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-8 w-full max-w-sm space-y-6">
+      <div className="bg-white rounded-2xl border border-[#F0DFC4] p-8 w-full max-w-sm space-y-6">
         <div className="text-center">
-          <h1 className="text-xl font-bold text-gray-900 dark:text-white">Admin Access</h1>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Enter the passcode to continue</p>
+          <h1 className="font-serif text-xl font-bold text-[#2B2420]">Admin Access</h1>
+          <p className="text-sm text-[#5B4B3A] mt-1">Enter the passcode to continue</p>
         </div>
         <Suspense>
           <LoginForm />

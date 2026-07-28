@@ -12,19 +12,19 @@ export default function OnboardPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Onboard VIP</h1>
-        <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">Add new entries individually or import from a spreadsheet</p>
+        <h1 className="font-serif text-2xl font-bold text-[#2B2420]">Onboard VIP</h1>
+        <p className="text-[#5B4B3A] text-sm mt-1">Add new entries individually or import from a spreadsheet</p>
       </div>
 
-      <div className="flex rounded-xl bg-gray-100 dark:bg-gray-800 p-1 gap-1">
+      <div className="flex rounded-xl bg-[#F0DFC4]/50 p-1 gap-1">
         {(["individual", "bulk"] as Tab[]).map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
             className={`flex-1 py-2 rounded-lg text-sm font-medium transition ${
               activeTab === tab
-                ? "bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm"
-                : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
+                ? "bg-white text-[#2B2420] shadow-sm"
+                : "text-[#5B4B3A] hover:text-[#2B2420]"
             }`}
           >
             {tab === "individual" ? "Individual" : "Bulk Upload"}
@@ -32,7 +32,7 @@ export default function OnboardPage() {
         ))}
       </div>
 
-      <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-6">
+      <div className="bg-white rounded-2xl border border-[#F0DFC4] p-6">
         {activeTab === "individual" ? <EntryForm /> : <ExcelUpload />}
       </div>
     </div>

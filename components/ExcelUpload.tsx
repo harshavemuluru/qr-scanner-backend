@@ -121,14 +121,14 @@ export default function ExcelUpload() {
   if (result) {
     return (
       <div className="space-y-4">
-        <div className={`rounded-2xl p-5 border ${result.errors.length === 0 ? "bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800" : "bg-yellow-50 dark:bg-yellow-900/20 border-yellow-200 dark:border-yellow-800"}`}>
-          <p className={`font-semibold text-lg ${result.errors.length === 0 ? "text-green-700 dark:text-green-400" : "text-yellow-700 dark:text-yellow-400"}`}>
+        <div className={`rounded-2xl p-5 border ${result.errors.length === 0 ? "bg-green-50 border-green-200" : "bg-yellow-50 border-yellow-200"}`}>
+          <p className={`font-semibold text-lg ${result.errors.length === 0 ? "text-green-700" : "text-yellow-700"}`}>
             {result.success} entr{result.success === 1 ? "y" : "ies"} imported successfully
           </p>
           {result.errors.length > 0 && (
             <ul className="mt-2 space-y-1">
               {result.errors.map((e) => (
-                <li key={e.row} className="text-sm text-yellow-700 dark:text-yellow-400">
+                <li key={e.row} className="text-sm text-yellow-700">
                   Row {e.row} ({e.name}): {e.error}
                 </li>
               ))}
@@ -137,7 +137,7 @@ export default function ExcelUpload() {
         </div>
         <button
           onClick={reset}
-          className="w-full py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition"
+          className="w-full py-2.5 rounded-xl border border-[#E8D9C3] text-[#5B4B3A] hover:bg-[#FBF1E3] transition"
         >
           Upload Another File
         </button>
@@ -153,7 +153,7 @@ export default function ExcelUpload() {
         onDrop={handleDrop}
         onClick={() => inputRef.current?.click()}
         className={`rounded-2xl border-2 border-dashed cursor-pointer p-10 text-center transition ${
-          dragging ? "border-violet-500 bg-violet-50 dark:bg-violet-900/20" : "border-gray-300 dark:border-gray-600 hover:border-violet-400 hover:bg-gray-50 dark:hover:bg-gray-700/50"
+          dragging ? "border-violet-500 bg-violet-50" : "border-[#E8D9C3] hover:border-violet-400 hover:bg-[#FBF1E3]"
         }`}
       >
         <input
@@ -164,52 +164,52 @@ export default function ExcelUpload() {
           onChange={(e) => { const f = e.target.files?.[0]; if (f) parseFile(f); }}
         />
         <div className="text-4xl mb-3">📂</div>
-        <p className="text-gray-700 dark:text-gray-300 font-medium">
+        <p className="text-[#5B4B3A] font-medium">
           {fileName ? fileName : "Drop your file here or click to browse"}
         </p>
-        <p className="text-sm text-gray-400 dark:text-gray-500 mt-1">Supports .xlsx, .xls, .csv</p>
-        <p className="text-xs text-gray-400 dark:text-gray-500 mt-3">
-          Required columns: <code className="bg-gray-100 dark:bg-gray-700 dark:text-gray-300 px-1 rounded">adult1_name</code>,{" "}
-          <code className="bg-gray-100 dark:bg-gray-700 dark:text-gray-300 px-1 rounded">kid1_name</code>,{" "}
-          <code className="bg-gray-100 dark:bg-gray-700 dark:text-gray-300 px-1 rounded">kid1_age</code>,{" "}
-          <code className="bg-gray-100 dark:bg-gray-700 dark:text-gray-300 px-1 rounded">number</code>
+        <p className="text-sm text-[#B5A88F] mt-1">Supports .xlsx, .xls, .csv</p>
+        <p className="text-xs text-[#B5A88F] mt-3">
+          Required columns: <code className="bg-[#F0DFC4]/50 px-1 rounded">adult1_name</code>,{" "}
+          <code className="bg-[#F0DFC4]/50 px-1 rounded">kid1_name</code>,{" "}
+          <code className="bg-[#F0DFC4]/50 px-1 rounded">kid1_age</code>,{" "}
+          <code className="bg-[#F0DFC4]/50 px-1 rounded">number</code>
           <br />
-          Optional: <code className="bg-gray-100 dark:bg-gray-700 dark:text-gray-300 px-1 rounded">adult2_name</code>,{" "}
-          <code className="bg-gray-100 dark:bg-gray-700 dark:text-gray-300 px-1 rounded">kid2_name</code> / <code className="bg-gray-100 dark:bg-gray-700 dark:text-gray-300 px-1 rounded">kid2_age</code>,{" "}
-          <code className="bg-gray-100 dark:bg-gray-700 dark:text-gray-300 px-1 rounded">kid3_name</code> / <code className="bg-gray-100 dark:bg-gray-700 dark:text-gray-300 px-1 rounded">kid3_age</code>
+          Optional: <code className="bg-[#F0DFC4]/50 px-1 rounded">adult2_name</code>,{" "}
+          <code className="bg-[#F0DFC4]/50 px-1 rounded">kid2_name</code> / <code className="bg-[#F0DFC4]/50 px-1 rounded">kid2_age</code>,{" "}
+          <code className="bg-[#F0DFC4]/50 px-1 rounded">kid3_name</code> / <code className="bg-[#F0DFC4]/50 px-1 rounded">kid3_age</code>
         </p>
       </div>
 
       {parseError && (
-        <div className="rounded-xl bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 p-3 text-red-700 dark:text-red-400 text-sm">{parseError}</div>
+        <div className="rounded-xl bg-red-50 border border-red-200 p-3 text-red-700 text-sm">{parseError}</div>
       )}
 
       {rows.length > 0 && (
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <p className="text-sm font-medium text-gray-700 dark:text-gray-300">{rows.length} rows ready to import</p>
-            <button onClick={reset} className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">Clear</button>
+            <p className="text-sm font-medium text-[#5B4B3A]">{rows.length} rows ready to import</p>
+            <button onClick={reset} className="text-sm text-[#5B4B3A] hover:text-[#2B2420]">Clear</button>
           </div>
-          <div className="rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
+          <div className="rounded-xl border border-[#F0DFC4] overflow-hidden">
             <div className="overflow-x-auto max-h-60 overflow-y-auto">
               <table className="w-full text-sm">
-                <thead className="bg-gray-50 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-600 sticky top-0">
+                <thead className="bg-[#FBF1E3] border-b border-[#F0DFC4] sticky top-0">
                   <tr>
-                    <th className="px-4 py-2 text-left font-medium text-gray-600 dark:text-gray-300">#</th>
-                    <th className="px-4 py-2 text-left font-medium text-gray-600 dark:text-gray-300">Adults</th>
-                    <th className="px-4 py-2 text-left font-medium text-gray-600 dark:text-gray-300">Kids</th>
-                    <th className="px-4 py-2 text-left font-medium text-gray-600 dark:text-gray-300">Number</th>
+                    <th className="px-4 py-2 text-left font-medium text-[#5B4B3A]">#</th>
+                    <th className="px-4 py-2 text-left font-medium text-[#5B4B3A]">Adults</th>
+                    <th className="px-4 py-2 text-left font-medium text-[#5B4B3A]">Kids</th>
+                    <th className="px-4 py-2 text-left font-medium text-[#5B4B3A]">Number</th>
                   </tr>
                 </thead>
                 <tbody>
                   {rows.map((r, i) => (
-                    <tr key={i} className="border-b border-gray-100 dark:border-gray-700 last:border-0">
-                      <td className="px-4 py-2 text-gray-400 dark:text-gray-500">{i + 1}</td>
-                      <td className="px-4 py-2 text-gray-900 dark:text-white">{r.adults.map((a) => a.name).join(" & ") || "—"}</td>
-                      <td className="px-4 py-2 text-gray-500 dark:text-gray-400">
+                    <tr key={i} className="border-b border-[#F0DFC4] last:border-0">
+                      <td className="px-4 py-2 text-[#B5A88F]">{i + 1}</td>
+                      <td className="px-4 py-2 text-[#2B2420]">{r.adults.map((a) => a.name).join(" & ") || "—"}</td>
+                      <td className="px-4 py-2 text-[#5B4B3A]">
                         {r.kids.map((k) => `${k.name} (${k.age})`).join(", ") || "—"}
                       </td>
-                      <td className="px-4 py-2 text-gray-500 dark:text-gray-400">{r.number || "—"}</td>
+                      <td className="px-4 py-2 text-[#5B4B3A]">{r.number || "—"}</td>
                     </tr>
                   ))}
                 </tbody>
